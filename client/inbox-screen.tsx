@@ -200,7 +200,11 @@ function ItemCard({ item, ctx }: { item: InboxItem; ctx: ScreenContext }) {
               theme={theme}
               onPress={() =>
                 void guard(async () => {
-                  await act({ id: item.id, actionId: action.id })
+                  await act({
+                    id: item.id,
+                    actionId: action.id,
+                    revision: item.revision,
+                  })
                   toast.show(`Sent “${action.label}” to the agent`, {
                     variant: "success",
                   })

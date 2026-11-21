@@ -41,6 +41,8 @@ export const itemSchema = z.object({
   resolution: resolutionSchema.nullable(),
   /** Set when a button press couldn't be delivered; the item is reopened. */
   deliveryError: z.string().nullable().default(null),
+  /** Bumped on every change. A button press must name the revision it showed. */
+  revision: z.number().int().default(0),
 })
 export type InboxItem = z.infer<typeof itemSchema>
 
@@ -54,7 +56,12 @@ const ok = z.object({ item: itemSchema })
 
 export const runAction = defineRpc({
   name: "inbox.run-action",
-  input: z.object({ id: z.string(), actionId: z.string() }),
+  input: z.object({
+    id: z.string(),
+    actionId: z.string(),
+    /** The item revision the card displayed when the button was pressed. */
+    revision: z.number().int(),
+  }),
   output: ok,
 })
 

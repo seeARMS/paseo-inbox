@@ -42,20 +42,34 @@ export default function contribute(server: PluginServerContext) {
     void list().then((items) => push({ items }))
   })
 
-  server.handle(runAction, async ({ id, actionId }, { paseo }) => {
-    const item = (await list()).find((other) => other.id === id)
-    if (!item) throw new Error(`No inbox item ${id}`)
-    if (item.status !== "open") throw new Error("This item is already closed")
-    const action = item.actions.find((other) => other.id === actionId)
-    if (!action) throw new Error("That action no longer exists")
-    const text = `[Inbox: ${item.title}]\n\n${action.message}`
-    // Queued, not sent inline: a busy agent gets it when its turn ends.
-    const resolved = await resolve(id, "done", {
-      kind: "action",
-      actionId,
-      label: action.label,
-      text,
-      delivery: "queued",
+  server.handle(runAction, async ({ id, actionId, revision }, { paseo }) => {
+    // Check and resolve in one store write, against the revision the card
+    // showed, so a press can't act on an item that changed underneath it
+    // (for example a dedupe refresh that swapped the agent or the messages).
+    const resolved = await update(id, (item) => {
+      if (item.status !== "open") throw new Error("This item is already closed")
+      if (item.revision !== revision) {
+        throw new Error(
+          "This item changed since you opened it. Check the updated card and choose again."
+        )
+      }
+      const action = item.actions.find((other) => other.id === actionId)
+      if (!action) throw new Error("That action no longer exists")
+      return {
+        ...item,
+        status: "done",
+        deliveryError: null,
+        resolution: {
+          kind: "action",
+          actionId,
+          label: action.label,
+          text: `[Inbox: ${item.title}]\n\n${action.message}`,
+          // Queued, not sent inline: a busy agent gets it when its turn ends.
+          delivery: "queued",
+          deliveredAt: null,
+          at: new Date().toISOString(),
+        },
+      }
     })
     enqueue(paseo, resolved)
     return { item: resolved }

@@ -102,6 +102,7 @@ export function add(input: NewItem) {
         actions,
         updatedAt: now,
         deliveryError: null,
+        revision: existing.revision + 1,
       }
       return {
         next: current.map((other) => (other.id === existing.id ? item : other)),
@@ -117,6 +118,7 @@ export function add(input: NewItem) {
       status: "open",
       resolution: null,
       deliveryError: null,
+      revision: 0,
     }
     return { next: [item, ...current], result: { item, updated: false } }
   })
@@ -129,7 +131,11 @@ export function update(
   return mutate((current) => {
     const found = current.find((item) => item.id === id)
     if (!found) throw new Error(`No inbox item ${id}`)
-    const item = { ...change(found), updatedAt: new Date().toISOString() }
+    const item = {
+      ...change(found),
+      updatedAt: new Date().toISOString(),
+      revision: found.revision + 1,
+    }
     return {
       next: current.map((other) => (other.id === id ? item : other)),
       result: item,
