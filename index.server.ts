@@ -33,11 +33,13 @@ export default function contribute(server: PluginServerContext) {
     }
   )
 
-  server.handle(watchInbox, async (_input, { push, signal, paseo }) => {
+  // Not async: a subscription closes when its handler's promise settles, so
+  // this must return void and stay open until the subscriber aborts.
+  server.handle(watchInbox, (_input, { push, signal, paseo }) => {
     void resumeQueued(paseo)
-    await push({ items: await list() })
     const stop = watch((items) => void push({ items }))
     signal.addEventListener("abort", () => stop())
+    void list().then((items) => push({ items }))
   })
 
   server.handle(runAction, async ({ id, actionId }, { paseo }) => {
