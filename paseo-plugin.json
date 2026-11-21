@@ -1,0 +1,13 @@
+{
+  "id": "paseo-inbox",
+  "name": "Inbox",
+  "description": "Agents file action items in an Inbox when they need you; answer with one click or jump into the chat.",
+  "requirements": {
+    "paseo": ">=0.17.0-beta.1"
+  },
+  "media": [
+    "assets/screenshot-open.png",
+    "assets/screenshot-history.png",
+    "assets/screenshot-sidebar.png"
+  ]
+}
