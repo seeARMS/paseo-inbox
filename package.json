@@ -1,6 +1,6 @@
 {
   "name": "paseo-inbox",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Agents file action items in an Inbox when they need you; answer with one click or jump into the chat.",
   "license": "MIT",
   "files": [
