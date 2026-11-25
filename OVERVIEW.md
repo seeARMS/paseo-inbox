@@ -15,7 +15,7 @@ Every agent except background helpers gets three tools and a short instruction o
 
 - `inbox_add` files an item. A stable dedupe key lets a scheduled task that runs again update its open item instead of adding a duplicate.
 - `inbox_list` shows what is still open and what you decided, so a later run can pick up where an earlier one left off.
-- `inbox_resolve` closes an item that no longer needs you, for example because you already did it yourself.
+- `inbox_resolve` closes an item that no longer needs you, for example because you already did it yourself, answered in the agent's chat instead of pressing a button, or the agent finished or dropped the work. Its note shows in History.
 
 The instruction tells agents to file items only for decisions they can't make or facts they can't check themselves. You can also name the tools in your own prompts and schedules to control exactly when items are filed and what the buttons say.
 

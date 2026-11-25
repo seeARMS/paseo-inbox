@@ -26,6 +26,9 @@ chat. The item appears in the person's Inbox in Paseo.
 - When an item no longer needs the person (they did it themselves, or things
   changed), close it with \`inbox_resolve\` by id or dedupeKey. A later run can
   use \`inbox_list\` to see what is still open and what the person decided.
+- Also close it with \`inbox_resolve\` and a short note when the person answers
+  in chat instead of pressing a button, or when you finish or abandon the work
+  the item was about. Don't leave an item open once nothing is waiting on them.
 - A button press arrives as a message starting with "[Inbox: <title>]". It is
   the person's own decision for that item only.`
 
@@ -116,7 +119,7 @@ export const inboxResolve = defineAgentTool({
   name: "inbox_resolve",
   title: "Resolve inbox item",
   description:
-    "Close an open inbox item because it no longer needs the person (for example, they already did it themselves, or the situation changed). Look it up by id or by its dedupeKey.",
+    "Close an open inbox item because it no longer needs the person (for example, they already did it themselves, answered in chat instead of pressing a button, or the situation changed), or because you finished or abandoned the work it was about. Look it up by id or by its dedupeKey.",
   input: z.object({
     ...refInput,
     note: z
