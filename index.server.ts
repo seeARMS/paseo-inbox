@@ -64,7 +64,7 @@ export default function contribute(server: PluginServerContext) {
           actionId,
           label: action.label,
           text: `[Inbox: ${item.title}]\n\n${action.message}`,
-          // Queued, not sent inline: a busy agent gets it when its turn ends.
+          // Sent by the per-agent delivery chain, as a steer that never interrupts.
           delivery: "queued",
           deliveredAt: null,
           at: new Date().toISOString(),

@@ -65,7 +65,9 @@ function resolutionLabel(item: InboxItem) {
   if (!r) return item.status
   const when = relative(r.at)
   if (r.kind === "action" && r.delivery === "queued")
-    return `You chose “${r.label}” · Sends when the agent finishes its current task`
+    return `You chose “${r.label}” · Sending`
+  if (r.kind === "action" && r.delivery === "waiting")
+    return `You chose “${r.label}” · Sends once the agent's permission prompt is answered`
   if (r.kind === "action") return `You chose “${r.label}” · ${when}`
   if (r.kind === "edit") return `You replied in the chat · ${when}`
   if (r.kind === "agent")
@@ -176,7 +178,8 @@ function ItemCard({ item, ctx }: { item: InboxItem; ctx: ScreenContext }) {
         <View style={styles.resolution}>
           <Icon
             name={
-              item.resolution?.delivery === "queued"
+              item.resolution?.delivery === "queued" ||
+              item.resolution?.delivery === "waiting"
                 ? "Clock"
                 : item.status === "done"
                   ? "CircleCheck"

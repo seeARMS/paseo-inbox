@@ -30,7 +30,10 @@ chat. The item appears in the person's Inbox in Paseo.
   in chat instead of pressing a button, or when you finish or abandon the work
   the item was about. Don't leave an item open once nothing is waiting on them.
 - A button press arrives as a message starting with "[Inbox: <title>]". It is
-  the person's own decision for that item only.`
+  the person's own decision for that item only. Presses can arrive while you
+  are in the middle of other work, and several can arrive together: finish the
+  step you are on, then handle each press on its own. A press never cancels
+  what you were doing.`
 
 export const inboxAdd = defineAgentTool({
   name: "inbox_add",

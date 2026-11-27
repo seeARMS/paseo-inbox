@@ -2,7 +2,7 @@ Inbox collects the things your agents need from you. When an agent is blocked on
 
 Open Inbox from the sidebar, where it shows a count of open items, or from the Command Center. Each item shows the agent's summary, details, and links, plus up to four buttons the agent chose:
 
-- A button sends its message back to the same agent as a new turn. If the agent is busy, the message waits until its current turn ends, so a press never interrupts work in progress. Presses for the same agent go out one at a time.
+- A button sends its message back to the same agent right away. An idle agent starts a turn with it. A busy agent picks it up as its next message, after the step it is on, so a press never interrupts work in progress. The one exception is an agent stopped on a permission prompt: since any message from you would cancel that prompt, the press waits until the prompt is answered, and the card says so. Presses for the same agent go out in the order you pressed them.
 - Edit opens the agent's chat with a suggested reply already in the composer, so you can change it before sending.
 - Clicking the item's title opens the agent's conversation.
 - Dismiss closes the item without messaging the agent.

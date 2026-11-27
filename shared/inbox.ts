@@ -16,8 +16,12 @@ export const resolutionSchema = z.object({
   label: z.string().nullable(),
   /** The text sent to the agent, or the agent's note when it closed the item itself. */
   text: z.string().nullable(),
-  /** For button presses: "queued" while the agent is busy, "sent" once delivered. */
-  delivery: z.enum(["queued", "sent"]).nullable().default(null),
+  /**
+   * For button presses: "queued" while it is being sent, "waiting" while the
+   * agent is stopped on a permission prompt (a message would cancel it), and
+   * "sent" once delivered.
+   */
+  delivery: z.enum(["queued", "waiting", "sent"]).nullable().default(null),
   deliveredAt: z.string().nullable().default(null),
 })
 export type InboxResolution = z.infer<typeof resolutionSchema>
