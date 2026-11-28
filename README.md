@@ -26,6 +26,8 @@ Agents get `inbox_add`, `inbox_list` and `inbox_resolve` automatically. To contr
 
 A button press arrives in the agent's chat as a message starting with `[Inbox: <title>]`.
 
+A new item sends a push notification on Paseo 0.18+ (nothing on older versions). Mute it under Settings → Notifications.
+
 ## Development
 
 ```bash

@@ -1,5 +1,6 @@
 import type { PluginServerContext } from "@getpaseo/plugin/server"
 import { enqueue, resumeQueued } from "./server/delivery"
+import { type Notifications, setNotifications } from "./server/notify"
 import { list, remove, resolve, update, watch } from "./server/store"
 import {
   INBOX_INSTRUCTIONS,
@@ -17,6 +18,9 @@ import {
 } from "./shared/inbox"
 
 export default function contribute(server: PluginServerContext) {
+  setNotifications(
+    (server as { notifications?: Notifications }).notifications
+  )
   const removeHook = server.addHook(
     "agent.open.before",
     async ({ request }, { paseo }) => {
@@ -107,5 +111,8 @@ export default function contribute(server: PluginServerContext) {
     return { ok: true as const }
   })
 
-  return () => removeHook()
+  return () => {
+    removeHook()
+    setNotifications(undefined)
+  }
 }

@@ -1,6 +1,7 @@
 import { defineAgentTool } from "@getpaseo/plugin/server"
 import { z } from "zod"
 import type { InboxItem } from "../shared/inbox"
+import { notifyNew } from "./notify"
 import { add, findItem, list, resolve } from "./store"
 
 export const INBOX_INSTRUCTIONS = `## Inbox
@@ -88,6 +89,7 @@ export const inboxAdd = defineAgentTool({
       workspaceId: agent.workspaceId,
       cwd: agent.cwd,
     })
+    await notifyNew(item, updated)
     return {
       text: `${updated ? "Updated" : "Added"} inbox item ${item.id}. The person's choice will arrive as a new message in this chat.`,
       structuredContent: { id: item.id, updated },
